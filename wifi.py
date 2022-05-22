@@ -5,9 +5,7 @@ import uping
 
 sta_if = network.WLAN(network.STA_IF)
 
-def connect(stay_active=True):
-
-    
+def connect(stay_active=True, dev=False):
     sta_if.active(True)
     print(sta_if.scan())
 
@@ -34,4 +32,8 @@ def connect(stay_active=True):
 
     print(uping.ping('1.1.1.1'))
     print(sta_if.config('essid'))
-    #sta_if.active(False)
+    if not stay_active:
+        sta_if.active(False)
+        
+if __name__ == "__main__":
+    connect(dev=True)
