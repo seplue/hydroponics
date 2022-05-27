@@ -1,17 +1,16 @@
 import time
 """
-Pin13: internal led
-Pin27
-Pin33: red led
-Pin15: orange led
-Pin32: green led
+Pin2: internal led (blue)
+Pin25: red led
+Pin26: orange led
+Pin27: green led
 """
 def blink4():
     from machine import Pin
-    led1=Pin(13,Pin.OUT)
-    led2=Pin(33,Pin.OUT)
-    led3=Pin(15,Pin.OUT)
-    led4=Pin(32,Pin.OUT)
+    led1=Pin(2,Pin.OUT)
+    led2=Pin(25,Pin.OUT)
+    led3=Pin(26,Pin.OUT)
+    led4=Pin(27,Pin.OUT)
     print("Programm gestartet")
     while True:
         led1.on()

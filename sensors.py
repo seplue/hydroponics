@@ -3,7 +3,7 @@ import dht
 from machine import Pin, ADC
 
 # setup Pins
-sensor = dht.DHT22(Pin(27))
+sensor = dht.DHT22(Pin(32))
 
 adc_pin = Pin(39)
 adc = ADC(adc_pin)
@@ -11,6 +11,7 @@ adc.atten(adc.ATTN_11DB)
 
 def measure_dht22(dev=0):
     #time.sleep(2) # only needed if run continuously
+    if dev: time.sleep(2)
 
     try:
         sensor.measure()
@@ -24,7 +25,7 @@ def measure_dht22(dev=0):
     
     except Exception as e:
         print(e)
-        return e
+        return None
     
 
 
@@ -34,11 +35,15 @@ def measure_light(dev=0):
     val = round(val, 2)
     
     if dev == 1: print(val)
-    return val
+    return {'light': val}
 
 def measure_all():
-    measurements = measure_dht22()
-    measurements['light'] = measure_light()
+    measurements = {}
+    print(measurements)
+    print(measure_dht22())
+    measurements.update(measure_dht22())
+    print(measure_light())
+    measurements.update(measure_light())
     
     return measurements
     
@@ -47,5 +52,4 @@ def measure_all():
 if __name__ == "__main__":
     measure_dht22(dev=1)
     measure_light(dev=1)
-    time.sleep(2)
     print(measure_all())

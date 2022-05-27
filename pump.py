@@ -4,6 +4,8 @@
 import time
 from machine import Pin
 
+pin_pump = Pin(4, Pin.OUT)
+
 def pump(duration=60, interval=60, dev=False):
     # set up time (duration in sec, interval in min)
     interval = interval*60
@@ -13,7 +15,6 @@ def pump(duration=60, interval=60, dev=False):
         duration = 3
         interval = 10
         
-    pin_pump = Pin(21, Pin.OUT)
     
     print("pump start")
     pin_pump.on()
