@@ -105,3 +105,6 @@ def ping(host, count=4, timeout=5000, interval=10, quiet=False, size=64):
     ret = (n_trans, n_recv)
     not quiet and print("%u packets transmitted, %u packets received" % (n_trans, n_recv))
     return (n_trans, n_recv)
+
+if __name__ == "__main__":
+    ping('1.1.1.1')
