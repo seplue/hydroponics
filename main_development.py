@@ -4,8 +4,7 @@ import test_urequests
 import uping
 import pump
 import sensors
-import save_measurements
-import send_measurements
+import measurement_handling
 
 development = True
 
@@ -13,10 +12,11 @@ wifi.connect()
 
 pump.pump(dev=development)
 measurements = sensors.measure_all()
-save_measurements.save(measurements)
+measurement_handling.write_json(measurements)
+print(sensors.measure_all())
 
 for x in range(12):
-    send_measurements.send("a")
+    measurement_handling.send_json("a")
     time.sleep(5*60)
 
 
