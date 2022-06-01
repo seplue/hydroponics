@@ -9,11 +9,12 @@ pin_pump = Pin(4, Pin.OUT)
 def pump(duration=60, interval=60, dev=False):
     # set up time (duration in sec, interval in min)
     interval = interval*60
-    if dev: # if in development mode, make it faster
+    # if in development mode, make it faster
+    if dev:
         duration = duration/60
         interval = interval/360
         duration = 3
-        interval = 10
+        interval = 5
         
     
     print("pump start")
@@ -21,6 +22,7 @@ def pump(duration=60, interval=60, dev=False):
     time.sleep(duration)
     pin_pump.off()
     print("Pump end")
+    time.sleep(interval)
     
 if __name__ == "__main__":
     pump(dev=True)

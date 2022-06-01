@@ -40,16 +40,17 @@ def measure_light(dev=0):
 def measure_all():
     measurements = {}
     print(measurements)
-    print(measure_dht22())
-    measurements.update(measure_dht22())
-    print(measure_light())
-    measurements.update(measure_light())
+    measurement_dht22 = measure_dht22()
+    print(measurement_dht22)
+    measurement_light = measure_light()
+    print(measurement_light)
+    measurements.update(measurement_dht22)
+    measurements.update(measurement_light)
     
     return measurements
     
 
 
 if __name__ == "__main__":
-    measure_dht22(dev=1)
-    measure_light(dev=1)
     print(measure_all())
+    
