@@ -30,23 +30,23 @@ def measure_dht22(dev=0):
     
 
 
-def measure_light(dev=0):
+def measure_light_intensity(dev=0):
     val = adc.read()
     val = val * (3.3 / 4095)
     val = round(val, 2)
     
     if dev == 1: print(val)
-    return {'light': val}
+    return {'light_intensity': val}
 
 def measure_all():
     measurements = {}
     # print(measurements)
     measurement_dht22 = measure_dht22()
     # print(measurement_dht22)
-    measurement_light = measure_light()
-    # print(measurement_light)
+    measurement_light_intensity = measure_light_intensity()
+    # print(measurement_light_intensity)
     measurements.update(measurement_dht22)
-    measurements.update(measurement_light)
+    measurements.update(measurement_light_intensity)
     
     return measurements
     
