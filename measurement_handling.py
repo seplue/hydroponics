@@ -9,7 +9,10 @@ measurement_example = {
     'light': 0.7,
     }
 
+
 def read_json():
+    # general function to open and read json file
+    
     # Opening JSON file
     with open(file_name, 'r') as openfile:
       

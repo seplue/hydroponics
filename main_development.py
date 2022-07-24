@@ -5,17 +5,22 @@ import uping
 import pump
 import sensors
 import measurement_handling
+from machine import Pin
 
 development = True
-"""
+led_orange=Pin(26,Pin.OUT)
+
 # only pump
 def main():
     
     while True:
-        pump.pump(60, 60, False)
-        
+        led_orange.on()
+        pump.pump(30, 0, False)
+        led_orange.off()
+        time.sleep(60)
+"""      
 # do everything
-"""
+
 def main():
     sent_since_measurement = False
     wifi.connect()
@@ -26,15 +31,21 @@ def main():
         measurements = sensors.measure_all()
         print(measurements)
         measurement_handling.write_json(measurements)
+        sent_since_measurement = False
         
         for x in range(12):
             #check if not sent_since_measurement
-            #check if internet connected, if not try reconnecting
+            if not sent_since_measurement:
+                #check if internet connected, if not try reconnecting
+                wifi.connect()
+                measurements
+            
             # if connected, send measurements
             # if no more measurements in MEASUREMENT.py set sent_since_measurement = True
             # wait for 5 min
-            measurement_handling.send_json("a")
+            measurement_handling.send_measurement({"key": "value"})
             time.sleep(5*60)
+"""
 """
 
 
@@ -53,3 +64,4 @@ for next 1h:
 
 
 """
+main()

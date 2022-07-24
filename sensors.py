@@ -17,7 +17,8 @@ def measure_dht22(dev=0):
         sensor.measure()
         temperature = sensor.temperature()
         humidity = sensor.humidity()
-
+        # todo round values, humidity sometimes displays 62.10001
+        
         if dev == 1:
             print(f"Temperature: {temperature} °C")
             print(f"Humidity: {humidity} %")
@@ -39,11 +40,11 @@ def measure_light(dev=0):
 
 def measure_all():
     measurements = {}
-    print(measurements)
+    # print(measurements)
     measurement_dht22 = measure_dht22()
-    print(measurement_dht22)
+    # print(measurement_dht22)
     measurement_light = measure_light()
-    print(measurement_light)
+    # print(measurement_light)
     measurements.update(measurement_dht22)
     measurements.update(measurement_light)
     
@@ -52,5 +53,7 @@ def measure_all():
 
 
 if __name__ == "__main__":
-    print(measure_all())
+    while True:
+        print(measure_all())
+        time.sleep(2)
     
