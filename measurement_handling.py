@@ -1,5 +1,5 @@
 import json
-import requests
+import urequests as requests
 import wifi
 
 file_name = 'MEASUREMENTS.py'
@@ -59,9 +59,11 @@ def send_measurement(x):
             r.status_code
             # if successful, delete the measurement from the list
             # if sending is unsuccessful write all remaining measurements back to the file
-            
-            measurements.remove(m)
-            pass
+            if r.status_code == 200:
+                measurements.remove(m)
+            else:
+                write_json(measurements)       
+
         except Exception as e:
             # if an expection happenes during sending, write all remaining measurements back to the file
             # and break 

@@ -11,7 +11,7 @@ development = True
 led_orange=Pin(26,Pin.OUT)
 
 # only pump
-def main():
+"""def main():
     
     while True:
         led_orange.on()
@@ -49,7 +49,7 @@ def main():
 """
 
 
-
+"""
 connect to wifi
     get internet time
 measure
