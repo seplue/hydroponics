@@ -1,4 +1,6 @@
 import json
+import requests
+import wifi
 
 file_name = 'MEASUREMENTS.py'
 
@@ -6,7 +8,7 @@ measurement_example = {
     'time_utc': 0,
     'temperature' : 23.1,
     'humidity' : 60.0,
-    'light_intensity': 0.7,
+    'light_intensity': 0.7
     }
 
 
@@ -53,6 +55,8 @@ def send_measurement(x):
     for m in measurements:
         try:
             # send measurements
+            r = requests.post(server_ip, json=m)
+            r.status_code
             # if successful, delete the measurement from the list
             # if sending is unsuccessful write all remaining measurements back to the file
             
