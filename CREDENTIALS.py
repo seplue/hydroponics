@@ -7,4 +7,4 @@ network_list = [
     ['Oxygen_Not_Included', 'lftw-69h2-4xjc-xdff'],
     ]
 
-database = ['192.168.1.1', 'password123']
+server_ip = 'http://192.168.43.106:5000/measurement'

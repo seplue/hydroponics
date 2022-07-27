@@ -30,7 +30,7 @@ def main():
         
         measurements = sensors.measure_all()
         print(measurements)
-        measurement_handling.write_json(measurements)
+        measurement_handling.add_measurement(measurements)
         sent_since_measurement = False
         
         for x in range(12):
@@ -38,13 +38,13 @@ def main():
             if not sent_since_measurement:
                 #check if internet connected, if not try reconnecting
                 wifi.connect()
-                measurements
+                measurement_handling.send_measurement()
             
             # if connected, send measurements
             # if no more measurements in MEASUREMENT.py set sent_since_measurement = True
             # wait for 5 min
-            measurement_handling.send_measurement({"key": "value"})
-            time.sleep(5*60)
+            print("waiting for 5 min")
+            time.sleep(5)
 """
 """
 

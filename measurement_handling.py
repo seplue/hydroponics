@@ -1,6 +1,7 @@
 import json
 import urequests as requests
 import wifi
+from CREDENTIALS import server_ip
 
 file_name = 'MEASUREMENTS.py'
 
@@ -21,13 +22,18 @@ def read_json():
         # Reading from json file
         json_object = json.load(openfile)
       
-    print(json_object)
-    print(type(json_object))
+    # print(json_object)
+    # print(type(json_object))
     # json_object is of type list which contains dictionaries
     return json_object
     
 def write_json(x):
-
+    # check if x is list, if not put x in a list
+    if isinstance(x, list):
+        pass
+    else:
+        x = [x]
+    
     # Serializing json
     json_object = json.dumps(x)
 
@@ -47,31 +53,35 @@ def add_measurement(x):
     
         
         
-def send_measurement(x):
+def send_measurement():
+    print("started send_measurement()")
     """
     dont forget to delete sent measurements
     """
     measurements = read_json()
-    for m in measurements:
+    print(type(measurements))
+    print(measurements)
+    for m in list(measurements):
         try:
             # send measurements
             r = requests.post(server_ip, json=m)
-            r.status_code
             # if successful, delete the measurement from the list
             # if sending is unsuccessful write all remaining measurements back to the file
+            
+            print(f"Status code is {r.status_code}")
             if r.status_code == 200:
-                measurements.remove(m)
-            else:
-                write_json(measurements)       
+                measurements.remove(m)    
 
         except Exception as e:
             # if an expection happenes during sending, write all remaining measurements back to the file
             # and break 
             write_json(measurements)
-            break
-    pass
+    # write the list back to file (this also empties the file in case all measurements were successfully sent)
+    write_json(measurements)   
+
 
 if __name__ == "__main__":
-    # read_json()
-    # write_json(measurement_example)
-    add_measurement(measurement_example)
+    #write_json(measurement_example)
+    #read_json()
+    send_measurement()
+    # add_measurement(measurement_example)
