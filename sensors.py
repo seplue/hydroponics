@@ -26,18 +26,21 @@ def measure_dht22(dev=0):
     
     except Exception as e:
         print(e)
-        return None
+        return {'temperature' : None, 'humidity' : None}
     
 
 
 def measure_light_intensity(dev=0):
-    val = adc.read()
-    val = val * (3.3 / 4095)
-    val = round(val, 2)
-    
-    if dev == 1: print(val)
-    return {'light_intensity': val}
-
+    try:
+        val = adc.read()
+        val = val * (3.3 / 4095)
+        val = round(val, 2)
+        
+        if dev == 1: print(val)
+        return {'light_intensity': val}
+    except Exception as e:
+        print(e)
+        return {'light_intensity': None}
 def measure_all():
     measurements = {}
     # print(measurements)
