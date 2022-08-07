@@ -44,10 +44,10 @@ def write_json(x):
         
 def add_measurement(x):
     measurements = read_json()
-    print(measurements)
+    #print(f"add_measurement(): measurements read:  {measurements}")
     
     measurements.append(x)
-    print(measurements)
+    #print(f"measurements after appending: {measurements}")
     
     write_json(measurements)
     
@@ -83,5 +83,6 @@ def send_measurement():
 if __name__ == "__main__":
     #write_json(measurement_example)
     #read_json()
-    send_measurement()
-    # add_measurement(measurement_example)
+    #send_measurement()
+    #add_measurement(measurement_example)
+    pass

@@ -3,13 +3,16 @@ import dht
 from machine import Pin, ADC
 
 # setup Pins
-sensor = dht.DHT22(Pin(32))
+# sensor = dht.DHT22(Pin(32))
+sensor = dht.DHT22(Pin(23))  # testing
 
 adc_pin = Pin(39)
 adc = ADC(adc_pin)
 adc.atten(adc.ATTN_11DB)
 
 def measure_dht22(dev=0):
+    # todo discard the first reading? It is sometimes inaccurate
+    
     #time.sleep(2) # only needed if run continuously
     if dev: time.sleep(2)
 
@@ -18,6 +21,8 @@ def measure_dht22(dev=0):
         temperature = sensor.temperature()
         humidity = sensor.humidity()
         # todo round values, humidity sometimes displays 62.10001
+        # is already rounded, ->floating point inaccuracy
+        # alternatively use decimal
         
         if dev == 1:
             print(f"Temperature: {temperature} °C")
@@ -50,6 +55,7 @@ def measure_all():
     # print(measurement_light_intensity)
     measurements.update(measurement_dht22)
     measurements.update(measurement_light_intensity)
+    measurements.update({'time_utc': None})
     
     return measurements
     
@@ -57,6 +63,7 @@ def measure_all():
 
 if __name__ == "__main__":
     while True:
-        print(measure_all())
+        # print(measure_all())
+        print(measure_dht22())
         time.sleep(2)
     
