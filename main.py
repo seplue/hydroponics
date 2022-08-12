@@ -23,6 +23,7 @@ led_orange=Pin(26,Pin.OUT)
 
 def main():
     sent_since_measurement = False
+    time_checked = False
     wifi.connect()
 
     while True:

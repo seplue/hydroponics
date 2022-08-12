@@ -1,5 +1,6 @@
 import time
 import dht
+import BME280
 from machine import Pin, ADC
 
 # setup Pins
@@ -57,13 +58,17 @@ def measure_all():
     measurements.update(measurement_light_intensity)
     measurements.update({'time_utc': None})
     
+    # if using BME280:
+    measurement_bme280 = BME280.return_measurement()
+    measurements.update(measurement_bme280)
+    
     return measurements
     
 
 
 if __name__ == "__main__":
     while True:
-        # print(measure_all())
-        print(measure_dht22())
+        print(measure_all())
+        # print(measure_dht22())
         time.sleep(2)
     

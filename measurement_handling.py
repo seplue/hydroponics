@@ -1,6 +1,8 @@
 import json
 import urequests as requests
 import wifi
+import time
+import ntptime
 from CREDENTIALS import server_ip
 
 file_name = 'MEASUREMENTS.py'
@@ -9,6 +11,7 @@ measurement_example = {
     'time_utc': 0,
     'temperature' : 23.1,
     'humidity' : 60.0,
+    'pressure': 960.1,
     'light_intensity': 0.7
     }
 
@@ -40,9 +43,13 @@ def write_json(x):
     # Writing to sample.json
     with open(file_name, 'w') as outfile:
         outfile.write(json_object)
-        
-        
-def add_measurement(x):
+
+
+def add_measurement(x, time_checked=False):
+    update_time()
+    
+    x.update({'time_utc': time.gmtime()}) 
+    
     measurements = read_json()
     #print(f"add_measurement(): measurements read:  {measurements}")
     
@@ -52,7 +59,16 @@ def add_measurement(x):
     write_json(measurements)
     
         
-        
+def update_time():
+    try:
+      print("Local time before synchronization：%s" %str(time.localtime()))
+      #make sure to have internet connection
+      ntptime.settime()
+      print("Local time after synchronization：%s" %str(time.localtime()))
+    except:
+      print("Error syncing time")
+
+
 def send_measurement():
     print("started send_measurement()")
     """
@@ -64,6 +80,7 @@ def send_measurement():
     for m in list(measurements):
         try:
             # send measurements
+            # todo check if it handles correctly when server_ip is not reachable
             r = requests.post(server_ip, json=m)
             # if successful, delete the measurement from the list
             # if sending is unsuccessful write all remaining measurements back to the file
@@ -76,6 +93,7 @@ def send_measurement():
             # if an expection happenes during sending, write all remaining measurements back to the file
             # and break 
             write_json(measurements)
+            print(e)
     # write the list back to file (this also empties the file in case all measurements were successfully sent)
     write_json(measurements)   
 
@@ -83,6 +101,6 @@ def send_measurement():
 if __name__ == "__main__":
     #write_json(measurement_example)
     #read_json()
-    #send_measurement()
-    #add_measurement(measurement_example)
+    add_measurement(measurement_example)
+    send_measurement()
     pass
