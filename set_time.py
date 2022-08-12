@@ -4,18 +4,18 @@ import wifi
 
 
 def update_time():
-    ntptime.settime()
+    try:
+      print("Local time before synchronization：%s" %str(time.localtime()))
+      #make sure to have internet connection
+      ntptime.settime()
+      print("Local time after synchronization：%s" %str(time.localtime()))
+    except:
+      print("Error syncing time")
 
 
 
 if __name__ == "__main__":
     wifi.connect()
-    
-    print(time.localtime())    
-    print(time.localtime())
     update_time()
 
-    print(time.localtime(time.mktime(time.localtime()) + 2*3600))
-
-    print(time.localtime())
     
