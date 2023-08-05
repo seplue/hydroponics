@@ -1,11 +1,10 @@
 import time
 import dht
-import BME280
 from machine import Pin, ADC
 
 # setup Pins
-# sensor = dht.DHT22(Pin(32))
-sensor = dht.DHT22(Pin(23))  # testing
+sensor = dht.DHT22(Pin(32))
+# sensor = dht.DHT22(Pin(23))  # testing
 
 adc_pin = Pin(39)
 adc = ADC(adc_pin)
@@ -56,11 +55,8 @@ def measure_all():
     # print(measurement_light_intensity)
     measurements.update(measurement_dht22)
     measurements.update(measurement_light_intensity)
-    measurements.update({'time_utc': None})
-    
-    # if using BME280:
-    measurement_bme280 = BME280.return_measurement()
-    measurements.update(measurement_bme280)
+    measurements.update({'pressure': 0})
+    measurements.update({'time_utc': time.localtime()})
     
     return measurements
     

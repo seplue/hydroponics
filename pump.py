@@ -1,28 +1,56 @@
-"""
-
-"""
 import time
+import set_time
+import wifi
+import pump
+import sensors
+import measurement_handling
 from machine import Pin
 
-pin_pump = Pin(4, Pin.OUT)
+development = False
 
-def pump(duration=60, interval=60, dev=False):
-    # set up time (duration in sec, interval in min)
-    interval = interval*60
-    # if in development mode, make it faster
-    if dev:
-        duration = duration/60
-        interval = interval/360
-        duration = 3
-        interval = 5
+
+# continuously pump
+def main():
+    while True:
+        pump.pump(1, 60, False)
+    
+
+
+"""
+# do everything
+def main():
+    # setup: try to connect to wifi and update internet time
+    wifi.connect()
+    set_time.update_time()
+
+    # main loop
+    while True:
+        # pump
+        pump.pump(60, 0, dev=development)
         
-    
-    print("pump start")
-    pin_pump.on()
-    time.sleep(duration)
-    pin_pump.off()
-    print("Pump end")
-    time.sleep(interval)
-    
+        # create measurement (without added time)
+        measurement = sensors.measure_all()
+        print(f"measurement made: {measurement}")
+        measurement_handling.add_measurement(measurement)
+        sent_since_measurement = False
+        
+        # sending measuerements
+        # over the one hour until next pumping
+        for x in range(12):
+            #check if not sent_since_measurement
+            if not sent_since_measurement:
+                #check if internet connected, if not try reconnecting
+                wifi.connect()
+                # if connected, send measurements
+                measurement_handling.send_measurements()
+            # if no more measurements in MEASUREMENT.py set sent_since_measurement = True
+            if measurement_handling.number_of_measurements_saved() == 0:
+                sent_since_measurement = True
+                
+            # wait for 5 min
+            print("waiting for 5 min")
+            time.sleep(5) #5*60 for 5 min
+
+"""
 if __name__ == "__main__":
-    pump(dev=True)
+    main()
